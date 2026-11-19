@@ -15,8 +15,8 @@
 - **No existing tests**: There's no test suite. Green CI is the only validation gate.
 
 ## High-signal commands and quirks
-- Run the official build: nothing local; run `./gradlew assembleDebug` (or via CI) but be prepared to run `generateBp` after any Gradle dep change.
-- The only build artifacts required by CI: `ExactCalculator-debug.apk` (uploaded as artifact) and a clean `Android.bp` generated from the Gradle model.
+- Run the official build: nothing local; run `./gradlew assembleRelease` (or via CI) but be prepared to run `generateBp` after any Gradle dep change.
+- The only build artifacts required by CI: `ExactCalculator-release.apk` (uploaded as artifact) and a clean `Android.bp` generated from the Gradle model.
 - Non-obvious deps in the source code (search for imports): androidx.core.*, androidx.constraintlayout.motion.*, androidx.fragment.*, androidx.recyclerview.*, and third‑party `com.hp:crcalc:1.0` (unmanaged outside AOSP). Editing `build.gradle.kts` without adjusting `Android.bp` → immediate CI red.
 - WebKit for Licenses: `assets/licenses.html` powers the Licenses screen via a WebView; ensure it stays in sync with actual license texts when you update any dependency.
 - Theme setup: parent is `Theme.Material3Expressive.DayNight`. Button style options live in themes.xml; you’ll be customizing themes, styles, colors, dimens.
