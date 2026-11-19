@@ -6,13 +6,17 @@
 - Everything lives in a single package: src/com/android/calculator2/ (main entry points, all logic, UI, tests, etc.).
 
 ## Developer workflow / CI constraints (do not ignore)
-- **Build environment**: GitHub Actions `workflow_dispatch` build only (file: .github/workflows/build.yml). Never locally run Gradle, `gradlew`, build APK, use an emulator, or run ADB. If a CI build fails, share logs and fix together.
+- **Build environment**: GitHub Actions `workflow_dispatch` build only (file: .github/workflows/build.yml). **NEVER** locally run Gradle, `gradlew`, build APK, use an emulator, or run ADB. If a CI build fails, share logs and fix together.
 - **Git process**: All changes must be committed. You push your commits to GitHub. No local branch/P/R expectations unless discussed.
-- **Silent CI on dirty tree**: The build step runs `./gradlew generateBp`. If `git status` shows any changes, the workflow fails immediately.
-  - Do not edit `Android.bp` manually; always regenerate via `./gradlew generateBp`. Check for dirty state after the task.
 - **Single package**: `com.android.calculator2` (namespace = applicationId). This repo is the **only** buildable app; there's no multi-project structure.
 - **Only one locale**: English-only. The present non-English `res/values-*` directories are upstream leftovers and will be pruned (discuss before changes).
 - **No existing tests**: There's no test suite. Green CI is the only validation gate.
+
+## Critical warnings
+- **Never build locally**: No `./gradlew`, no local APK generation, no emulators, no ADB. All builds and testing must be done through the GitHub Actions workflow.
+- **Never run ADB**: No ADB commands, no device communication, no manual testing outside CI.
+- **CI is the only source of truth**: If something doesn't work in CI, we can't debug it unless we have the CI logs. Any issue without CI evidence cannot be validated.
+- **No assumptions**: Never assume code works unless we have CI evidence. If something is unclear, ask me before making changes.
 
 ## High-signal commands and quirks
 - Run the official build: nothing local; run `./gradlew assembleRelease` (or via CI) but be prepared to run `generateBp` after any Gradle dep change.
