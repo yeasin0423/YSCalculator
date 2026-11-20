@@ -3,12 +3,12 @@
 ## Repo overview
 - This is a fork of LineageOS's ExactCalculator (android_packages_apps_ExactCalculator.git), aiming for a Samsung One UI-inspired design.
 - The actual workspace is /home/yeasin/calculator-project/android_packages_apps_ExactCalculator.
-- Everything lives in a single package: src/com/android/calculator2/ (main entry points, all logic, UI, tests, etc.).
+- Everything lives in a single package: src/com/calculator/app/ (main entry points, all logic, UI, tests, etc.).
 
 ## Developer workflow / CI constraints (do not ignore)
 - **Build environment**: GitHub Actions `workflow_dispatch` build only (file: .github/workflows/build.yml). **NEVER** locally run Gradle, `gradlew`, build APK, use an emulator, or run ADB. If a CI build fails, share logs and fix together.
 - **Git process**: All changes must be committed. You push your commits to GitHub. No local branch/P/R expectations unless discussed.
-- **Single package**: `com.android.calculator2` (namespace = applicationId). This repo is the **only** buildable app; there's no multi-project structure.
+- **Single package**: `com.calculator.app` (namespace = applicationId). This repo is the **only** buildable app; there's no multi-project structure.
 - **Only one locale**: English-only. The present non-English `res/values-*` directories are upstream leftovers and will be pruned (discuss before changes).
 - **No existing tests**: There's no test suite. Green CI is the only validation gate.
 
@@ -24,7 +24,7 @@
 - Third‑party libs location: `libs/com/hp/crcalc/1.0/crcalc-1.0.jar` (no mavenCentral). Don't touch this .jar.
 - ProGuard: release build enables both code shrinking and resource shrinking; `proguard.flags` is the only rules file. Do not delete or rename this file.
 - Theme setup: parent is `Theme.Material3Expressive.DayNight`. Button style options live in themes.xml; you'll be customizing themes, styles, colors, dimens.
-- Debug build: `applicationIdSuffix = ".dev"` (debug builds get `com.android.calculator2.dev`).
+- Debug build: `applicationIdSuffix = ".dev"` (debug builds get `com.calculator.app.dev`).
 
 ## What to avoid before discussing
 - Touching code or resources without understanding first. If something is unclear, ask me before implementing changes. I won't assume intent or spark ideas out of thin air.

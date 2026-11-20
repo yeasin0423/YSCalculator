@@ -25,7 +25,7 @@
 // such property, since expressions may be read by one thread while the main thread is updating
 // another expression.
 
-package com.android.calculator2;
+package com.calculator.app;
 
 import android.content.ContentValues;
 import android.content.Context;
