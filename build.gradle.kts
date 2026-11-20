@@ -3,13 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import org.lineageos.generatebp.GenerateBpPluginExtension
-import org.lineageos.generatebp.models.Module
-
 plugins {
     id("com.android.application") version "8.7.1"
     id("org.jetbrains.kotlin.android") version "1.9.23"
-    id("org.lineageos.generatebp") version "+"
 }
 
 android {
@@ -66,20 +62,4 @@ dependencies {
     implementation("com.hp:crcalc:1.0")
 }
 
-configure<GenerateBpPluginExtension> {
-    targetSdk.set(android.defaultConfig.targetSdk!!)
-    minSdk.set(android.defaultConfig.minSdk!!)
-    versionCode.set(android.defaultConfig.versionCode!!)
-    versionName.set(android.defaultConfig.versionName!!)
-    availableInAOSP.set { module: Module ->
-        when {
-            module.group.startsWith("androidx") -> true
-            module.group.startsWith("org.jetbrains") -> true
-            module.group == "com.google.android.material" -> true
-            module.group == "com.google.errorprone" -> true
-            module.group == "com.google.guava" -> true
-            module.group == "junit" -> true
-            else -> false
-        }
-    }
-}
+
