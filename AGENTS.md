@@ -20,7 +20,7 @@
 
 ## High-signal commands and quirks
 - Run the official build: nothing local; run `./gradlew assembleRelease` (or via CI).
-- The only build artifact required by CI: `ExactCalculator-release.apk` (uploaded as artifact).
+- The only build artifact required by CI: `ExactCalculator-release.apk` (uploaded as artifact, path uses `*.apk` wildcard to match AGP output).
 - Third‑party libs location: `libs/com/hp/crcalc/1.0/crcalc-1.0.jar` (no mavenCentral). Don't touch this .jar.
 - ProGuard: release build enables both code shrinking and resource shrinking; `proguard.flags` is the only rules file. Do not delete or rename this file.
 - Theme setup: parent is `Theme.Material3Expressive.DayNight`. Button style options live in themes.xml; you'll be customizing themes, styles, colors, dimens.
