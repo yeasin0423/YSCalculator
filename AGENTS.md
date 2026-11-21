@@ -2,7 +2,7 @@
 
 ## Repo overview
 - This is a personal calculator app based on LineageOS ExactCalculator source, now rebranded as YS Calculator with Samsung One UI-inspired design.
-- The actual workspace is /home/yeasin/calculator-project/android_packages_apps_ExactCalculator.
+- The actual workspace is /home/yeasin/calculator-project/YSCalculator.
 - Everything lives in a single package: src/com/calculator/app/ (main entry points, all logic, UI, tests, etc.).
 
 ## Developer workflow / CI constraints (do not ignore)
