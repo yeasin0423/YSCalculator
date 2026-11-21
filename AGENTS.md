@@ -28,7 +28,7 @@
 - Third‑party libs location: `libs/com/hp/crcalc/1.0/crcalc-1.0.jar` (no mavenCentral). Don't touch this .jar.
 - ProGuard: release build enables both code shrinking and resource shrinking; `proguard.flags` is the only rules file. Do not delete or rename this file.
 - Theme setup: parent is `Theme.Material3Expressive.DayNight`. Button style options live in themes.xml; you'll be customizing themes, styles, colors, dimens.
-- App icon: adaptive icon in `res/mipmap-anydpi-v26/ic_launcher.xml` + density-specific `ic_launcher.png` in `res/mipmap-{mdpi,hdpi,xhdpi,xxhdpi,xxxhdpi}/`. Foreground variants `ic_launcher_foreground.png` and `ic_launcher_oneui.png` are also present.
+- App icon: adaptive icon in `res/mipmap-anydpi-v26/ic_launcher.xml` (background from `@drawable/ic_launcher_background`, foreground `@mipmap/ic_launcher_foreground`). Icon image: `new.png` placed at all densities in `res/mipmap-{mdpi,hdpi,xhdpi,xxhdpi,xxxhdpi}/ic_launcher.png` and `ic_launcher_foreground.png`.
 - Debug build: `applicationIdSuffix = ".dev"` (debug builds get `com.calculator.app.dev`).
 
 ## Version scheme (follow this for every release commit)
