@@ -23,6 +23,6 @@ jobs:
 
     - uses: actions/upload-artifact@v6
       with:
-        name: ExactCalculator-release.apk
+        name: YS Calculator-release.apk
         path: build/outputs/apk/release/*.apk
         if-no-files-found: warn

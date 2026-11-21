@@ -1,7 +1,7 @@
-# AGENTS.md for ExactCalculator (fork of LineageOS android_packages_apps_ExactCalculator)
+# AGENTS.md for YS Calculator
 
 ## Repo overview
-- This is a fork of LineageOS's ExactCalculator (android_packages_apps_ExactCalculator.git), aiming for a Samsung One UI-inspired design.
+- This is a personal calculator app based on LineageOS ExactCalculator source, now rebranded as YS Calculator with Samsung One UI-inspired design.
 - The actual workspace is /home/yeasin/calculator-project/android_packages_apps_ExactCalculator.
 - Everything lives in a single package: src/com/calculator/app/ (main entry points, all logic, UI, tests, etc.).
 
@@ -20,7 +20,7 @@
 
 ## High-signal commands and quirks
 - Run the official build: nothing local; run `./gradlew assembleRelease` (or via CI).
-- The only build artifact required by CI: `ExactCalculator-release.apk` (uploaded as artifact, path uses `*.apk` wildcard to match AGP output).
+- The only build artifact required by CI: `YS Calculator-release.apk` (uploaded as artifact, path uses `*.apk` wildcard to match AGP output).
 - Third‑party libs location: `libs/com/hp/crcalc/1.0/crcalc-1.0.jar` (no mavenCentral). Don't touch this .jar.
 - ProGuard: release build enables both code shrinking and resource shrinking; `proguard.flags` is the only rules file. Do not delete or rename this file.
 - Theme setup: parent is `Theme.Material3Expressive.DayNight`. Button style options live in themes.xml; you'll be customizing themes, styles, colors, dimens.
