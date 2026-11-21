@@ -1,28 +1,69 @@
-name: build
+name: Build release APK
 
-on: workflow_dispatch
+# Builds the unsigned release APK. The APK is signed afterwards, on the maintainer's own computer;
+# the signing key never leaves it.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
-    - name: Setup JDK 17
-      uses: actions/setup-java@v5
-      with:
-        distribution: 'zulu'
-        java-version: 17
-        cache: 'gradle'
+      - uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu'
+          java-version: 17
+          cache: 'gradle'
 
-    - name: Build with Gradle
-      shell: bash
-      run: ./gradlew assembleRelease
+      - name: Build the unsigned release APK
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon
 
-    - uses: actions/upload-artifact@v6
-      with:
-        name: YS Calculator-release.apk
-        path: build/outputs/apk/release/*.apk
-        if-no-files-found: warn
+      - name: Show checksums
+        run: sha256sum build/outputs/apk/release/*.apk
+
+      - uses: actions/upload-artifact@v6
+        with:
+          name: YS Calculator-unsigned-${{ github.ref_name }}
+          path: build/outputs/apk/release/*.apk
+          if-no-files-found: error
+
+      # Publishes the build and attaches the unsigned APK to the release, so it can be downloaded as a
+      # plain .apk instead of being unpacked from the artifact zip. The maintainer signs it locally.
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          VERSION_NAME=$(awk -F'"' '/^[[:space:]]*versionName = / { print $2; exit }' build.gradle.kts)
+          if [ -z "$VERSION_NAME" ]; then
+            echo "Could not read versionName from build.gradle.kts" >&2
+            exit 1
+          fi
+          TAG="v${VERSION_NAME}"
+          TITLE="YS Calculator ${VERSION_NAME}"
+          COMMIT_SHA=$(git rev-parse --short HEAD)
+          COMMIT_SUBJECT=$(git log -1 --pretty=%s)
+          COMMIT_BODY=$(git log -1 --pretty=%b)
+          BODY="Built from commit ${COMMIT_SHA}: ${COMMIT_SUBJECT}"
+          if [ -n "$COMMIT_BODY" ]; then
+            BODY="${BODY}"$'\n\n'"${COMMIT_BODY}"
+          fi
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists; refreshing its APK."
+          else
+            gh release create "$TAG" --target "${{ github.sha }}" --title "$TITLE" --notes "$BODY"
+          fi
+          for apk in build/outputs/apk/release/*.apk; do
+            gh release upload "$TAG" \
+              "$apk#YS Calculator-unsigned-${VERSION_NAME}.apk" \
+              --clobber
+          done

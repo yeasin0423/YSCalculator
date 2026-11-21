@@ -20,10 +20,15 @@
 
 ## High-signal commands and quirks
 - Run the official build: nothing local; run `./gradlew assembleRelease` (or via CI).
-- The only build artifact required by CI: `YS Calculator-release.apk` (uploaded as artifact, path uses `*.apk` wildcard to match AGP output).
+- The CI workflow builds the unsigned release APK, shows checksums, uploads it as an artifact, and
+  creates (or refreshes) a GitHub release with the APK attached. The maintainer signs it locally;
+  the signing key never leaves the maintainer's computer.
+- The only build artifact required by CI: `YS Calculator-unsigned-${{ github.ref_name }}` (path uses
+  `build/outputs/apk/release/*.apk` wildcard to match AGP output).
 - Third‑party libs location: `libs/com/hp/crcalc/1.0/crcalc-1.0.jar` (no mavenCentral). Don't touch this .jar.
 - ProGuard: release build enables both code shrinking and resource shrinking; `proguard.flags` is the only rules file. Do not delete or rename this file.
 - Theme setup: parent is `Theme.Material3Expressive.DayNight`. Button style options live in themes.xml; you'll be customizing themes, styles, colors, dimens.
+- App icon: adaptive icon in `res/mipmap-anydpi-v26/ic_launcher.xml` + density-specific `ic_launcher.png` in `res/mipmap-{mdpi,hdpi,xhdpi,xxhdpi,xxxhdpi}/`. Foreground variants `ic_launcher_foreground.png` and `ic_launcher_oneui.png` are also present.
 - Debug build: `applicationIdSuffix = ".dev"` (debug builds get `com.calculator.app.dev`).
 
 ## Version scheme (follow this for every release commit)

@@ -1,93 +1,106 @@
 <p align="center">
-  <img src="res/mipmap-anydpi/ic_launcher.xml" alt="YS Calculator Icon" width="120" height="120" />
-  <br />
-  <b>YS Calculator</b>
-  <br />
-  <sub>A beautiful, polished calculator app with Samsung One UI-inspired design</sub>
+  <img src="res/mipmap-xxxhdpi/ic_launcher.png" alt="YS Calculator icon" width="128">
 </p>
 
----
+<h1 align="center">YS Calculator</h1>
 
 <p align="center">
-  <b>Light theme</b> • <b>Dark theme</b> • <b>Clean UI</b> • <b>Smooth animations</b> • <b>English only</b>
+  <strong>A beautiful, polished calculator for Android.</strong><br>
+  Samsung One UI styling. English only. No account, no ads, no tracking.
 </p>
-
----
-
-## 📱 About
-
-YS Calculator is a personal Android calculator app built from the ground up with a focus on beauty, simplicity, and usability. Inspired by Samsung's One UI design language, it features:
-
-- ✨ **Clean, modern interface** — One UI-inspired buttons, typography, and spacing
-- 🌗 **Light & dark themes** — Polished color schemes for both modes
-- 🔢 **Exact arithmetic engine** — Precise calculations with no floating-point errors
-- 🎨 **Beautiful animations** — Smooth transitions and micro-interactions
-- 🇬🇧 **English only** — Focused, uncluttered experience
-
-## 🛠 Tech Stack
-
-- **Language:** Java (calculation engine) + Kotlin (new UI code)
-- **Build:** Gradle (AGP 8.7.1), Java 17
-- **Min SDK:** 31 (Android 12)
-- **Target SDK:** 35
-- **Package:** `com.calculator.app`
-- **CI:** GitHub Actions (workflow_dispatch, unsigned release APK)
-
-## 🚀 Getting Started
-
-This project is built and released exclusively through GitHub Actions. No local builds, emulators, or ADB are used.
-
-### Build via GitHub Actions
-
-1. Push your changes to the `master` branch
-2. Go to the **Actions** tab in GitHub
-3. Run the **"build"** workflow (`workflow_dispatch`)
-4. Download the unsigned release APK artifact
-5. Sign it locally with your keystore
-6. Install and test on your device
-
-### Version Scheme
-
-Version code maps directly to version name:
-- `versionCode 11` → `versionName 1.1`
-- `versionCode 59` → `versionName 5.9`
-- `versionCode 105` → `versionName 10.5`
-
-Update both together in every release commit.
-
-## 📂 Project Structure
-
-```
-YS Calculator/
-├── src/com/calculator/app/     # App source code
-│   ├── Evaluator.java          # Calculation engine (Java)
-│   ├── UnifiedReal.java        # Exact arithmetic (Java)
-│   ├── BoundedRational.java    # Rational numbers (Java)
-│   ├── Calculator.java         # Main activity (UI)
-│   └── ...                     # Other UI & logic classes
-├── res/                        # Resources (layouts, drawables, values)
-├── .github/workflows/build.yml # CI build pipeline
-├── build.gradle.kts            # Gradle build config
-├── proguard.flags              # ProGuard/R8 rules
-└── README.md                   # This file
-```
-
-## 🎨 Design
-
-YS Calculator follows a Samsung One UI-inspired aesthetic:
-
-- **Bottom-anchored controls** for one-handed use
-- **Generous touch targets** and comfortable spacing
-- **Rounded corners** and soft shadows
-- **Consistent typography** across light and dark themes
-- **Smooth animations** for button presses and state changes
-
-## 📄 License
-
-This project is derived from LineageOS ExactCalculator (Apache-2.0) and is maintained as a personal project.
-
----
 
 <p align="center">
-  Made with ❤️ for beautiful calculation
+  <a href="https://github.com/yeasin0423/YSCalculator/releases/latest"><img src="https://img.shields.io/github/v/release/yeasin0423/YSCalculator?style=flat-square" alt="Latest release"></a>
+  <a href="https://github.com/yeasin0423/YSCalculator/actions/workflows/build.yml"><img src="https://github.com/yeasin0423/YSCalculator/actions/workflows/build.yml/badge.svg" alt="Build status"></a>
+  <img src="https://img.shields.io/badge/Android-12%2B-3DDC84?style=flat-square&logo=android&logoColor=white" alt="Android 12+">
+  <img src="https://img.shields.io/badge/Design-Samsung_One_UI-1428A0?style=flat-square" alt="Samsung One UI styling">
 </p>
+
+<p align="center">
+  <a href="https://github.com/yeasin0423/YSCalculator/releases/latest"><img src="https://img.shields.io/badge/Download-Latest_release-2ea043?style=for-the-badge" alt="Download latest release"></a>
+</p>
+
+---
+
+YS Calculator is a personal calculator app rebuilt around Samsung One UI design language.
+It performs exact arithmetic with no floating-point errors, keeps history locally, and ships
+with a clean light and dark theme. Nothing leaves the device.
+
+## At a glance
+
+| Property | Support |
+| --- | --- |
+| Android | 12+ (API 31) |
+| Calculation | Exact arithmetic engine |
+| Display | One-line and two-line modes |
+| History | Expression history with re-evaluation |
+| Design | Samsung One UI only |
+| Languages | English only |
+| Permissions | None beyond defaults |
+| Artifact | Release APK built by CI |
+
+## Features
+
+| | |
+| --- | --- |
+| **One UI look** | AMOLED-friendly dark and light palettes, clean typography, comfortable spacing, smooth animations. |
+| **Exact arithmetic** | Rational-number based engine; results are precise, never rounded unexpectedly. |
+| **History** | Every expression is saved; tap any past result to re-use it. |
+| **Modes** | Standard and advanced pads, one-line and two-line displays. |
+| **Private by default** | No internet permission, no analytics, no crash reporting, no account. |
+
+## Download
+
+Signed builds are published on the [releases page](https://github.com/yeasin0423/YSCalculator/releases).
+
+## Build from source
+
+Requirements: JDK 17 or newer and the Android SDK (compile SDK 35).
+
+```sh
+./gradlew assembleRelease
+```
+
+The APK is written to `build/outputs/apk/release/`. To sign your own build, create a git-ignored
+`keystore.properties` in the project root:
+
+```properties
+storeFile=/path/to/your-release-key.jks
+storePassword=...
+keyAlias=...
+keyPassword=...
+```
+
+### Gradle in CI
+
+There is one **manual** workflow (`workflow_dispatch`); a normal push does not start a build:
+
+- **Build release APK** – the normal build. It uses the Gradle wrapper (`./gradlew`), which downloads
+  Gradle from `https://services.gradle.org/` and verifies its SHA-256
+  (`distributionSha256Sum` in `gradle/wrapper/gradle-wrapper.properties`).
+
+The workflow builds the unsigned release APK, shows checksums, uploads it as an artifact, and creates
+(or refreshes) a GitHub release with the APK attached. The maintainer signs it locally; the signing
+key never leaves the maintainer's computer.
+
+## Project layout
+
+```text
+src/com/calculator/app/   app shell, calculation engine, UI
+res/                      strings, themes, launcher icons
+gradle/wrapper/           Gradle wrapper
+.github/workflows/        manual release builds
+```
+
+Development rules for this fork live in [AGENTS.md](AGENTS.md).
+
+## Credits
+
+- [LineageOS ExactCalculator](https://github.com/LineageOS/android_packages_apps_ExactCalculator) —
+  the upstream project this fork is based on.
+- Samsung One UI — the visual language the interface follows.
+
+## Disclaimer
+
+YS Calculator is an independent project and is not affiliated with, endorsed by or connected to Samsung.
+The One UI name is only used to describe the visual style the design is inspired by.
