@@ -8,7 +8,7 @@
 ## Developer workflow / CI constraints (do not ignore)
 - **Build environment**: GitHub Actions `workflow_dispatch` build only (file: .github/workflows/build.yml). **NEVER** locally run Gradle, `gradlew`, build APK, use an emulator, or run ADB. If a CI build fails, share logs and fix together.
 - **Git process**: All changes must be committed. You push your commits to GitHub. No local branch/P/R expectations unless discussed.
-- **Single package**: `com.calculator.app` (namespace = applicationId). App name: `YS Calculator`, launcher name: `Calculator`. Current version: `1.2` (versionCode `12`).
+- **Single package**: `com.calculator.app` (namespace = applicationId). App name: `YS Calculator`, launcher name: `Calculator`. Current version: `1.3` (versionCode `13`).
 - **Only one locale**: English-only. The present non-English `res/values-*` directories are upstream leftovers and will be pruned (discuss before changes).
 - **No existing tests**: There's no test suite. Green CI is the only validation gate.
 
@@ -32,9 +32,9 @@
 - Debug build: `applicationIdSuffix = ".dev"` (debug builds get `com.calculator.app.dev`).
 
 ## Version scheme (follow this for every release commit)
-- versionCode maps directly to versionName: versionCode `12` = version `1.2`, versionCode `59` = version `5.9`, versionCode `105` = version `10.5`.
+- versionCode maps directly to versionName: versionCode `13` = version `1.3`, versionCode `59` = version `5.9`, versionCode `105` = version `10.5`.
 - Update both `versionCode` and `versionName` in `build.gradle.kts` in the **same commit**.
-- Example: next after `1.2`/`12` → `1.3`/`13`, then `1.4`/`14`, etc.
+- Example: next after `1.3`/`13` → `1.4`/`14`, then `1.5`/`15`, etc.
 
 ## What to avoid before discussing
 - Touching code or resources without understanding first. If something is unclear, ask me before implementing changes. I won't assume intent or spark ideas out of thin air.
