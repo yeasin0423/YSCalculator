@@ -36,8 +36,9 @@ jobs:
           path: build/outputs/apk/release/*.apk
           if-no-files-found: error
 
-      # Publishes the build and attaches the unsigned APK to the release, so it can be downloaded as a
-      # plain .apk instead of being unpacked from the artifact zip. The maintainer signs it locally.
+      # Publishes the build and creates a GitHub release. The APK is NOT attached here —
+      # the maintainer signs the APK locally and uploads it to the release manually.
+      # The signing key never leaves the maintainer's computer.
       - name: Create GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -57,13 +58,10 @@ jobs:
           if [ -n "$COMMIT_BODY" ]; then
             BODY="${BODY}"$'\n\n'"${COMMIT_BODY}"
           fi
+          BODY="${BODY}"$'\n\n'"---"$'\n'"Unsigned APK available as a workflow artifact. Sign it locally and upload to this release."
           if gh release view "$TAG" >/dev/null 2>&1; then
-            echo "Release $TAG already exists; refreshing its APK."
+            echo "Release $TAG already exists; refreshing its notes."
+            gh release edit "$TAG" --title "$TITLE" --notes "$BODY"
           else
             gh release create "$TAG" --target "${{ github.sha }}" --title "$TITLE" --notes "$BODY"
           fi
-          for apk in build/outputs/apk/release/*.apk; do
-            gh release upload "$TAG" \
-              "$apk#YS Calculator-unsigned-${VERSION_NAME}.apk" \
-              --clobber
-          done
