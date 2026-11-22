@@ -8,7 +8,7 @@
 ## Developer workflow / CI constraints (do not ignore)
 - **Build environment**: GitHub Actions `workflow_dispatch` build only (file: .github/workflows/build.yml). **NEVER** locally run Gradle, `gradlew`, build APK, use an emulator, or run ADB. If a CI build fails, share logs and fix together.
 - **Git process**: All changes must be committed. You push your commits to GitHub. No local branch/P/R expectations unless discussed.
-- **Single package**: `com.calculator.app` (namespace = applicationId). App name: `YS Calculator`, launcher name: `Calculator`. Current version: `1.6` (versionCode `16`).
+- **Single package**: `com.calculator.app` (namespace = applicationId). App name: `YS Calculator`, launcher name: `Calculator`. Current version: `1.7` (versionCode `17`).
 - **Only one locale**: English-only. The present non-English `res/values-*` directories are upstream leftovers and will be pruned (discuss before changes).
 - **No existing tests**: There's no test suite. Green CI is the only validation gate.
 
@@ -28,13 +28,13 @@
 - Third‑party libs location: `libs/com/hp/crcalc/1.0/crcalc-1.0.jar` (no mavenCentral). Don't touch this .jar.
 - ProGuard: release build enables both code shrinking and resource shrinking; `proguard.flags` is the only rules file. Do not delete or rename this file.
 - Theme setup: parent is `Theme.Material3Expressive.DayNight`. Button style options live in themes.xml; you'll be customizing themes, styles, colors, dimens.
-- App icon: `new.png` placed at all densities in `res/mipmap-{mdpi,hdpi,xhdpi,xxhdpi,xxxhdpi}/ic_launcher.png`. Foreground uses `res/drawable/ic_launcher_foreground.xml` (layer-list with `android:inset="25%"` so the icon isn't zoomed/cropped by the adaptive icon circular mask). Adaptive icon XML in `res/mipmap-anydpi-v26/ic_launcher.xml` references background + foreground directly.
+- App icon: `new.png` placed at all densities in `res/mipmap-{mdpi,hdpi,xhdpi,xxhdpi,xxxhdpi}/ic_launcher.png`. Referenced directly from `AndroidManifest.xml` as `@mipmap/ic_launcher`. No adaptive icon XML — simple PNG icon, no cropping/zooming issues.
 - Debug build: `applicationIdSuffix = ".dev"` (debug builds get `com.calculator.app.dev`).
 
 ## Version scheme (follow this for every release commit)
-- versionCode maps directly to versionName: versionCode `16` = version `1.6`, versionCode `59` = version `5.9`, versionCode `105` = version `10.5`.
+- versionCode maps directly to versionName: versionCode `17` = version `1.7`, versionCode `59` = version `5.9`, versionCode `105` = version `10.5`.
 - Update both `versionCode` and `versionName` in `build.gradle.kts` in the **same commit**.
-- Example: next after `1.6`/`16` → `1.7`/`17`, then `1.8`/`18`, etc.
+- Example: next after `1.7`/`17` → `1.8`/`18`, then `1.9`/`19`, etc.
 
 ## What to avoid before discussing
 - Touching code or resources without understanding first. If something is unclear, ask me before implementing changes. I won't assume intent or spark ideas out of thin air.
